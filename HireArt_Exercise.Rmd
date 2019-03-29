@@ -1,0 +1,59 @@
+---
+title: "HireArt_Exercise"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+- Reading xlsx file by installing and using library readxl.
+- Set working directory. 
+- Use function read_excel to extract data fromxlsx file.
+- Showed top 5 rows of data using function head() 
+
+```{r}
+#install.packages("readxl")
+library(readxl)
+setwd('D:/wallpaper')
+my_data = read_excel('HireArt - Data Analyst Exercise 10.12.17.xlsx')
+head(my_data, n= 5)
+```
+
+- Checked count of missing values in a data, using sum() and is.na().
+- There are 0 missing values in a data.
+
+
+```{r}
+sum(is.na(my_data))
+
+```
+
+- Extracted month from  Date of Contact using months().
+- Create dataframe(df_1) and included all the values of my_data and month.
+- Displayed top 5 rows using function head().
+
+```{r}
+
+Month_of_Contact = months(my_data$`Date of Contact`, abbreviate = TRUE)
+
+df_1 = data.frame(my_data$`Account manager`, my_data$`Client Name`,my_data$`Date of Contact`, Month_of_Contact)
+
+head(df_1, n=5)
+```
+
+
+-created frequency table for months.
+
+```{r}
+library(plyr)
+Count_month = count(df_1$Month_of_Contact)
+Count_month
+```
+
+- Used ggplot2 libraries.
+- Utilized ggplot() visualization function to display bar plot of variable : Month and frequency of Month.
+- Here we can conclude that October is a month when clients are contacted in a greatest percentage by team
+
+```{r}
+library(ggplot2)
+ggplot(Count_month, aes(x = x, y = freq), size = 1)+ geom_bar(stat = "Identity", width = .4, fill = "RED") + scale_x_discrete(limits = month.abb)
+```
